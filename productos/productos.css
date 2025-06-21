@@ -1,0 +1,265 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap');
+
+:root {
+    --verde-principal: #546f01;
+    --hover-verde: #a4bc00;
+    --beige-suave: #d8cabb;
+    --madera: #a88f6b;
+    --blanco: #ffffff;
+    --negro: #000000;
+}
+
+h2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 32px;
+  }
+p{
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.navbar-brand img{
+    width: 60px; /* o el tamaño que quieras */
+    object-fit: contain; /* para que no se deforme el logo */
+    transition: all 0.3s ease;
+    
+}
+
+.navbar-brand img:hover{
+    transform: scale(1.1);
+}
+
+
+
+form{ 
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color:#546f01; 
+    
+}
+
+form input{
+    width: 350px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+  
+}
+
+form button{
+    width: 80px;
+    margin: 0px 8px;
+    border: 1px solid #a88f6b;
+    border-radius: 15px;
+    background-color: #a88f6b;
+    color: #ffffff;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  
+}
+
+form button:hover{
+    transform: scale(1.1);
+}
+
+.container-imagen img{
+    width: 100%;
+    display: block;
+    height: auto;
+    opacity: 0.5;
+    padding: 0;
+}
+.card-image img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain; /* Asegura que la imagen se vea completa */
+  }
+
+.contenedor{
+    background-color: #d8cabb;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    
+}
+
+.card{
+    width: 30%; /* Esto da 3 por fila en desktop */
+    min-width: 250px;
+    max-width: 300px;
+    margin: 2rem;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid var(--beige-suave); 
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.30); /* sombra sutil */
+    background-color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+}
+.card:hover {
+    transform: translateY(-10px) scale(1.03); /* efecto "levantado" y ampliado */
+    box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.25); /* sombra más fuerte */
+  }
+.card-image{
+    border-radius: 15px 15px 0 0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    height: 200px; /* Altura fija para que todas las imágenes ocupen el mismo espacio */
+    overflow: hidden; /* Evita que la imagen sobresalga si es más grande */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-image img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain; /* Asegura que la imagen se vea completa */
+  }
+
+
+.card-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border-radius: 0 0 15px 15px;
+    color: #000000;
+    cursor: pointer;
+    padding: 0rem;
+    height: 12rem;
+}
+
+.card-content h2{
+    text-align: left;
+    font-size: 28px;
+    margin: 0 0 0 16px;
+    width: 14rem;
+}
+
+.card-content p{
+    width: 14rem;
+    margin: 0 0 0 16px;
+}
+  
+
+/*.card-content  p:first-of-type { Descomentar si agrego estrellas en productos
+    font-size: 16px; 
+    font-weight: bold; 
+    margin-top: 30px;
+}*/
+
+.card-content p:nth-of-type(2) {
+    font-size: 24px; 
+}
+
+.card-content button{
+    height: 2rem;
+    width: 100%; /* ← se adapta al ancho del contenedor */
+    max-width: 14rem;
+    color: #ffffff;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    background-color: var(--hover-verde);
+    cursor: pointer;
+    transition: 0.5s ease;
+    margin: 10px auto 10px auto; 
+}
+
+.card-content button:hover{
+    background-color: var(--verde-principal);
+}
+
+
+.card-content p.descripcion {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;        
+    -webkit-box-orient: vertical;
+    max-height: 3.2em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+footer{
+    background-color: #a88f6b;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem;
+}
+
+footer a{
+    text-decoration: none;
+}
+
+footer .fa-brands{
+    color: #000000
+}
+
+footer .fa-brands:hover{
+  transform: scale(1.2);
+  transition: all 0.3s ease;
+}
+
+.boton-flotante {
+    position: fixed;
+    bottom: 40px;
+    right: 20px;
+    background-color: var(--hover-verde);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+  
+.boton-flotante:hover {
+    background-color: var(--verde-principal);
+}
+
+.contador-carrito {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--hover-verde);
+    color: white;
+    font-size: 14px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 600px) {
+    .boton-flotante {
+      bottom: 4.2rem; /* 20px */
+      right: 0.2rem;     /* 16px */
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+    }
+  }
