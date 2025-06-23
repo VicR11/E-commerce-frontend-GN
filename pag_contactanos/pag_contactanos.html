@@ -45,14 +45,15 @@
 
         <div class="contenedor-formulario">
             <form id="form" action="https://formspree.io/f/mldbeary" method="POST">
-                <h2>Nombre:</h2>
+                <label for="nombre">Nombre:</label>
                 <input type="text" class="formulario-input" id="nombre" placeholder="Nombre y apellidos completos" required>
-                <h2>Email:</h2>
-                <input type="email" class="formulario-input" id="email" placeholder="Correo electronico" required>
-                <h2>Telefono / Celular</h2>
-                <input type="number" class="formulario-input" id="numero"  placeholder="Numero completo">
-                <h2>Mensaje</h2>
-                <input type="text" class="formulario-input" id="mensaje" placeholder="Mensaje">
+                <label for="email">Email:</label>
+                <input type="email" class="formulario-input" id="email" placeholder="Correo electrónico" required>
+                <label for="numero">Telefono / Celular:</label>
+                <input type="number" class="formulario-input" id="numero"  placeholder="Número completo">
+                <label for="mensaje">Mensaje:</label>
+            
+                <textarea  class="formulario-input" id="mensaje" rows="4" cols="30"></textarea>
                 <footer class="footer-formulario">
                 <button type="submit" id="bttnEnviar">Enviar</button>
                 </footer>
