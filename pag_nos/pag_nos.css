@@ -23,20 +23,15 @@ body {
 h2,
 h4,
 h5 {
-    font-size: 32px;
+    font-size: 28px;
     text-align: center;
 }
 
 h3{
-    padding: 2%;
-    font-family: "Cormorant";
-    font-size: 3rem;
-    font-style: normal;
-    font-weight: bold;
+    font-size: 32px;
+    padding: 3%; 
     text-align: center;
 }
-
-
 
 /* TEXTO GENERAL */
 p {
@@ -168,7 +163,6 @@ p {
 .flip-card-back {
     background-color: var(--blanco);
     color: var(--verde-principal);
-    /* Cambiado de blanco a verde para contraste */
     transform: rotateY(180deg);
     display: flex;
     justify-content: center;
@@ -187,61 +181,33 @@ p {
 /* NUEVO ESTILO: SECCIONES MISION, VISION Y COMO SURGIO */
 .contenedor {
     display: flex;
-    /* Alinea los elementos en fila */
     justify-content: space-between;
-    /* Espacio entre los cuadros */
     gap: 1rem;
     padding: 3%;
-    /* Espacio entre los elementos */
-    /* Espacio superior */
+    height: 100%;
     flex-wrap: wrap;
-    /* Permite que los elementos se ajusten en pantallas pequeñas */
     align-items: flex-start;
-    /* Alinea los elementos al inicio del contenedor */
 }
 
 /* Estilo para cada cuadradito de Misión, Visión, ¿Cómo surgió? */
 .adn {
     background-color: var(--blanco);
-    /* Fondo blanco */
     border: 1px solid var(--verde-principal);
-    /* Borde verde */
     border-radius: 10px;
-    /* Bordes redondeados */
     padding: 1.5rem;
-    /* Espaciado interno */
     width: 30%;
-    /* Cada cuadro ocupa 30% del ancho */
+    height: 400px;
     box-sizing: border-box;
-    /* No incluye el padding en el tamaño total */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    /* Sombra sutil */
     transition: transform 0.3s ease-in-out;
-    /* Transición al pasar el mouse */
     text-align: justify;
+    overflow: hidden;
 }
 
 .adn:hover {
     transform: translateY(-5px);
-    /* Efecto hover: levanta el cuadro */
 }
 
-/* Estilos para pantallas pequeñas */
-@media (max-width: 768px) {
-    .contenedor {
-        flex-direction: column;
-        /* En pantallas pequeñas, apilan los cuadros verticalmente */
-        align-items: center;
-        /* Centran los cuadros */
-    }
-
-    .adn {
-        width: 90%;
-        /* En pantallas pequeñas, cada cuadro ocupa el 90% del ancho */
-        margin-bottom: 15px;
-        /* Espacio inferior entre los cuadros */
-    }
-}
 
 /*EQUIPO*/
 .equipo {
@@ -250,27 +216,28 @@ p {
 }
 
 .miembros {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 2rem;
-    justify-items: center;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    text-align: center;
+    width: 100%;
+    gap: 3rem;
 }
+
+
 
 .foto {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    /* esto recorta la imagen dentro del círculo */
-    margin-bottom: 0.5rem;
-    margin-left: 50px;
+    margin: auto;
 }
 
 .foto img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* asegura que la imagen se vea bien */
 }
 
 
@@ -320,4 +287,18 @@ p {
     background-color: var(--hover-verde);
     color: var(--blanco);
     transform: scale(1.05);
+}
+
+
+@media (max-width: 768px) {
+    .contenedor {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .adn {
+        height: auto;
+        width: 90%;
+        margin-bottom: 15px;
+    }
 }
