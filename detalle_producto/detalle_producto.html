@@ -52,31 +52,53 @@
     </header>
     <!-- Product-Detail -->
     <main>
-        <section id="background-container">
-            <div id="decorative">
-                <figure id="background-image"></figure>
-            </div>
-            <article id="product-info-container">
-                <figure id="product-image">
-                    <img src="../img/produc-image.png" alt="Imagen de Producto">
-                </figure>
-                <section id="product-text">
-                    <h1 id="product-name">PRODUCTO</h1>
-                    <div id="product-cost">
-                        <h3 id="final-cost">Precio $ /libra</h3>
-                        <h2 id="original-cost">Original$</h2>
+        <div id="contenedor-detalle">
+            <div id="contenedor-decoracion">
+          
+                  <!-- <img id="imagen-fondo" src="../img/imagen-detalle.jpg" alt="Imagen de Producto"> -->
+                  <!-- <img  id="producto-imagen" src="../img/produc-image.png" alt="Imagen de Producto">-->
+                 
+                    <div class="carrusel">
+                      <div class="carrusel-item visible">
+                       
+                          <img id="imagen1" src="../img/produc-image.png" alt="Producto 1">
+                    
+                      </div>
+                      <div class="carrusel-item">
+                       
+                          <img id="imagen2" src="../img/arroz-removebg-preview.png" alt="Producto 2">
+                      
+                      </div>
+                      <div class="carrusel-item">
+                      
+                          <img id="imagen3" src="../img/produc-image.png" alt="Producto 3">
+                       
+                      </div>
+
+                      <button class="carrusel-prev"><i class="fa-solid fa-chevron-left"></i></button>
+                      <button class="carrusel-next"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
-                    <p id="product-description">Lorem ipsum dolor sit amet consectetur. Sit felis gravida dui leo morbi sodales curabitur arcu integer.</p>
-                    <section id="product-amount">
-                        <p>Ajuste la cantidad en libras que desea:</p>
-                        <div id="amount-buttons">
-                            <button id="minor-amount"> - </button>
-                            <span id="amount" placeholder="1">1</span>
-                            <button id="mayor-amount" > + </button>
+                  
+          
+            </div>
+            <div id="contenedor-info">
+                
+                <section id="producto-info">
+                    <h1 id="producto-nombre">PRODUCTO</h1>
+                    <div id="producto-costo">
+                        <h3 id="final-costo">Precio $ /kilo</h3>
+                    </div>
+                    <p id="producto-descripcion">Lorem ipsum dolor sit amet consectetur. Sit felis gravida dui leo morbi sodales curabitur arcu integer.</p>
+                    <section id="producto-cantidad">
+                        <p>Ajuste la cantidad en kilos que desea:</p>
+                        <div id="botones-cantidad">
+                            <button id="signo-menor"> - </button>
+                            <span id="cantidad" placeholder="1">1</span>
+                            <button id="signo-mayor" > + </button>
                         </div>
                     </section>
-                    <section id="purchase-resume">
-                        <p>Precio:</p>
+                    <section id="resumen-compra">
+                        <!--<p>Total:</p>-->
                         <h3>Total $</h3>
                         <a href="../carrito_compras/carrito.html">
                         <button id="shopping-cart">
@@ -85,11 +107,14 @@
                             </svg>                        
                         </button>
                         </a>
+                        <button id="restablecer-cantidad">
+                          <i class="fa-solid fa-trash"></i>                       
+                        </button>
                     </section>
                 </section>
                 
-            </article>
-        </section>
+              </div>
+            </div>
     </main>
 
     <!-- Footer -->

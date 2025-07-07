@@ -2,57 +2,61 @@
 let productSelected = {};
 let cantidad = 1;
 let animacion;
+const url = "http://localhost:8080";
 
 //Variables
 
-const productNameElement = document.getElementById("product-name");
-const productCostElement = document.getElementById("final-cost");
-const productImgElement = document.getElementById("product-image");
-const originalCostElement = document.getElementById("original-cost");
-const productAmountElement = document.getElementById("amount");
-const productTotal = document.getElementById("purchase-resume").querySelector('h3');
-const addAmountButton = document.getElementById("mayor-amount");
-const subAmountButton = document.getElementById("minor-amount");
+const productNameElement = document.getElementById("producto-nombre");
+const productCostElement = document.getElementById("final-costo");
+const productImgElement1 = document.getElementById("imagen1");
+const productImgElement2 = document.getElementById("imagen2");
+const productImgElement3 = document.getElementById("imagen3");
+const descripcionP = document.getElementById("producto-descripcion");
+const productAmountElement = document.getElementById("cantidad");
+const productTotal = document.getElementById("resumen-compra").querySelector('h3');
+const addAmountButton = document.getElementById("signo-mayor");
+const subAmountButton = document.getElementById("signo-menor");
+const restablecerButton = document.getElementById("restablecer-cantidad");
 const shoppingCartButton = document.getElementById("shopping-cart");
 
 //Funciones
 
 function leerProducto(){
-    let product = JSON.parse(localStorage.getItem("productoSeleccionado") || []);
-    product = product[0];
-    productSelected = product;
-    productSelected.cantidad = cantidad;
-
+    const params = new URLSearchParams(window.location.search);
+    const nombre = params.get("nombre");
+    fetch(`${url}/productos/nombre/${nombre.toLowerCase()}`)
+    .then(res => res.json())
+    .then(data => {
+      console.log("Producto:", data);
+      let product = data;
+      productSelected = product;
+      productSelected.cantidad = cantidad;
     renderizar();
+    });
 }
 
 function renderizar(){
     let nombreProducto = productSelected.nombre;
     let precioProducto = productSelected.precio;
-    let imagenProducto = productSelected.imagen;
+    let imagenProducto = productSelected.imagenesProducto;
     let descripcionProducto = productSelected.descripcion;
     let cantidadProducto = productSelected.cantidad = cantidad;
     mostrarProducto(nombreProducto, precioProducto, imagenProducto, descripcionProducto, cantidadProducto);
 }
 
 function mostrarProducto(nombre, precio, imagen, descripcion, cantidad){
-    let precioFloat = parseFloat(precio.replace("$", "").replace("Kg", "").trim());
-
+    ///let precioFloat = parseFloat(precio.replace("$", "").replace("Kg", "").trim());
     productNameElement.textContent = nombre;
-    productCostElement.textContent = `$ ${precioFloat} / lb`;
-
-    originalCostElement.textContent = `$ ${(precioFloat * 1.15).toFixed(0)} / lb`
-
-    const imagenUrl = productImgElement.querySelector('img');
-    imagenUrl.src = imagen;
-    imagenUrl.alt = `Imagen de ${nombre}`;
-    
-    const descripcionP = document.getElementById("product-description");
+    productCostElement.textContent = `$ ${precio} / Kg`;
+    productImgElement1.src = imagen[0]?.urlImagen;
+    productImgElement1.alt = `Imagen de ${nombre}`;
+    productImgElement2.src = imagen[1]?.urlImagen;
+    productImgElement2.alt = `Imagen de ${nombre}`;
+    productImgElement3.src = imagen[2]?.urlImagen;
+    productImgElement3.alt = `Imagen de ${nombre}`;
     descripcionP.textContent = descripcion;
-
     productAmountElement.textContent = `${cantidad}`;
-    
-    productTotal.textContent = `$ ${cantidad * precioFloat}`;
+    productTotal.textContent = `$ ${cantidad * precio}`;
 }
 
 function aumentarCantidad(){
@@ -69,6 +73,11 @@ function disminuirCantidad(){
     }
     console.log(cantidad)
     productSelected.cantidad = cantidad;
+}
+
+function restablecerCantidad(){
+    cantidad = 1;
+    productSelected.cantidad = 1;
 }
 
 function agregarCarrito(){
@@ -101,7 +110,7 @@ function mostrarModal(mensaje, color='black'){
     }, 2500);
 }
 
-const aElement = document.getElementById("purchase-resume").querySelector('a');
+const aElement = document.getElementById("resumen-compra").querySelector('a');
 aElement.addEventListener('click', (e) => {
     e.preventDefault();
 
@@ -117,6 +126,11 @@ addAmountButton.addEventListener('click', () => {
 
 subAmountButton.addEventListener('click', () => {
     disminuirCantidad();
+    renderizar();
+})
+
+restablecerButton.addEventListener('click', () => {
+    restablecerCantidad();
     renderizar();
 })
 
@@ -137,3 +151,21 @@ document.addEventListener('DOMContentLoaded', () => {
     path: '../animaciones/producto_agregado.json'
     });
 })
+
+//Carrusel
+let index = 0;
+const items = document.querySelectorAll('.carrusel-item');
+
+function showImage(newIndex) {
+  items[index].classList.remove('visible');
+  index = (newIndex + items.length) % items.length;
+  items[index].classList.add('visible');
+}
+
+document.querySelector('.carrusel-next').addEventListener('click', () => {
+  showImage(index + 1);
+});
+
+document.querySelector('.carrusel-prev').addEventListener('click', () => {
+  showImage(index - 1);
+});

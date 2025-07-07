@@ -1,30 +1,49 @@
 let listaProductos = [];
+document.addEventListener("DOMContentLoaded", cargarProductos);
 
-
-function crearCard(nombre, imagen, precio, descripcion){
+function crearCard(nombre, imagen, precio){
 const contenedor = document.getElementById('contenedor-cards');
     contenedor.innerHTML += ` 
               
                 <div class="card">
-                 <a href="../detalle_producto/detalle_producto.html">
                     <div class="card-image">
                         <img src="${imagen}" alt="Imagen de la card">
                         </div>
-                        <div class="card-content">
-                            
-                            <h2>${precio}</h2>
+                        <div class="card-content">                
+                            <h2>$${formatoMoneda(precio)} Kg</h2>
                             <p>${nombre}</p>
-                            <p class = "descripcion" style="display: none;">${descripcion}</p>
-                            <button>Ver más</button>
+                            <button onclick="verDetalle('${nombre}')">Ver más</button>
                         </div>   
-                      </a> 
                     </div>`
 
 }
 
+function cargarProductos(){
+    fetch("http://localhost:8080/productos")
+    .then(res => res.json())
+    .then(productos =>{
+        productos.forEach(producto => {
+            crearCard(producto.nombre, producto.imagenesProducto[0]?.urlImagen, producto.precio)
+        });
+        
+    }).catch(error => console.error('Error:', error));
+}
+
+function verDetalle(nombre){  
+    window.location.href = `../detalle_producto/detalle_producto.html?nombre=${nombre}` ;  
+}
+
+function formatoMoneda(numero){
+    let valorMoneda = numero.toLocaleString('es-Co', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    })
+    return valorMoneda
+}
 
 
-document.addEventListener('DOMContentLoaded', function(){
+
+/*document.addEventListener('DOMContentLoaded', function(){
     
 fetch('../productos.json')
 .then(response => response.json())
@@ -49,11 +68,11 @@ if (local != null){
     });
 }
 
-});
+});*/
 
 
 ////Detalle producto
-const contenedor = document.getElementById('contenedor-cards');
+/*const contenedor = document.getElementById('contenedor-cards');
 
 contenedor.addEventListener("click", function (event) {
 
@@ -70,7 +89,7 @@ contenedor.addEventListener("click", function (event) {
         console.log(detalleProducto);
         localStorage.setItem("productoSeleccionado",JSON.stringify(detalleProducto));
     }
-});
+});*/
 
 
 // fetch('../productos.json')
