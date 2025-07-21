@@ -84,7 +84,12 @@ function agregarCarrito(){
     //Leer productos existentes, agregar producto actual y escribir en localstorage
     if (localStorage.getItem("carrito") !== null){
         let listaCarrito = JSON.parse(localStorage.getItem("carrito") || []);
-        listaCarrito.push(productSelected);
+        const productoExistente  = listaCarrito.find(producto =>producto.nombre ==productSelected.nombre) // find devuelve una referencia al objeto por eso se modifica el objeto del array directamente
+            if(productoExistente ){
+                productoExistente.cantidad +=productSelected.cantidad; 
+            }else{
+                listaCarrito.push(productSelected);
+            } 
         localStorage.setItem("carrito", JSON.stringify(listaCarrito));
     } else {
         let carritoVacio = [];

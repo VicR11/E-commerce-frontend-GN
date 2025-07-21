@@ -8,6 +8,7 @@ const contenedor = document.getElementById("shopping-list");
 const subTotalElement = document.getElementById("sub-total");
 const botonPago = document.getElementById("total-cost");
 const elementoEnvio = document.getElementById("shipping-cost");
+const diaActual = new Date();
 
 //Funciones Lista
 
@@ -20,7 +21,7 @@ function mostrarItems(){
         contenedor.removeChild(contenedor.lastChild)
     }
     for (let i in productosCarrito){
-        crearItem(productosCarrito[i].nombre, productosCarrito[i].precio, productosCarrito[i].imagen, productosCarrito[i].cantidad)
+        crearItem(productosCarrito[i].nombre, productosCarrito[i].precio, productosCarrito[i].imagenesProducto[0].urlImagen, productosCarrito[i].cantidad)
     }
 }
 
@@ -34,7 +35,7 @@ function crearItem(nombre, precio, imagenRuta, cantidad){
     productDiv.classList.add("product-list");
 
     const productImage = document.createElement('img');
-    productImage.src = "../img/"+imagenRuta.split("/img/").pop();
+    productImage.src = imagenRuta;
     productImage.alt = `Imagen de ${nombre}`;
 
     const productName = document.createElement('h4');
@@ -43,31 +44,28 @@ function crearItem(nombre, precio, imagenRuta, cantidad){
 
     const productCost = document.createElement('p');
     productCost.classList.add("product-cost");
-    productCost.textContent = precio;
-    const precioNumero = parseFloat(productCost.textContent.replace("$", "").replace("Kg", "").trim())
+    const precioNumero = parseFloat(precio)
+    productCost.textContent = `$ ${formatoMoneda(precioNumero)} / Kg`;
 
     const productCount = document.createElement('p');
     productCount.classList.add("product-count")
     productCount.textContent = cantidad;
 
-    const productSpan = document.createElement('span');
-    productSpan.textContent = "$";
-
     const productTotal = document.createElement('p');
     productTotal.classList.add("product-total");
     const finalCost = (precioNumero * cantidad);
-    productTotal.textContent = finalCost;
+    productTotal.textContent = `$ ${formatoMoneda(finalCost)}`;
 
     //Actualizacion resumen
     subTotal += finalCost;
-    subTotalElement.textContent = `${subTotal} $`;
+    subTotalElement.textContent = `$ ${formatoMoneda(subTotal)}`;
     totalFinal = subTotal + envio;
-    botonPago.textContent = `${totalFinal} $`;
-    elementoEnvio.textContent = `${envio} $`;
+    botonPago.textContent = `$ ${formatoMoneda(totalFinal)}`;
+    elementoEnvio.textContent = `$ ${formatoMoneda(envio)}`;
 
     const deleteButton = document.createElement('button');
     deleteButton.classList.add("delete-item");
-    deleteButton.textContent = "X";
+    deleteButton.innerHTML = `<img src="../img/delete-icon.svg" alt="Borrar Producto">`;
 
     //Event Listener
     deleteButton.addEventListener('click', () => {
@@ -79,16 +77,14 @@ function crearItem(nombre, precio, imagenRuta, cantidad){
 
         //Actualizacion resumen
         subTotal -= finalCost;
-        subTotalElement.textContent = `${subTotal} $`;
+        subTotalElement.textContent = `$ ${formatoMoneda(subTotal)}`;
         totalFinal = subTotal + envio;
-        botonPago.textContent = `${totalFinal} $`;
-        elementoEnvio.textContent = `${envio} $`;
+        botonPago.textContent = `$ ${formatoMoneda(totalFinal)}`;
+        elementoEnvio.textContent = `$ ${formatoMoneda(envio)}`;
     })
 
     productDiv.appendChild(productImage);
     productDiv.appendChild(productName);
-    productCost.appendChild(productSpan);
-    productTotal.appendChild(productSpan);
     productTotal.appendChild(deleteButton);
 
     contenedor.appendChild(productDiv);
@@ -106,14 +102,116 @@ function eliminarItem(texto){
     guardarLista();
 }
 
+//Formato Moneda
+function formatoMoneda(numero){
+    let valorMoneda = numero.toLocaleString('es-Co', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    })
+    return valorMoneda
+}
+
+//Modal
+function mostrarModal(mensaje, color='black'){
+    const modal = document.getElementById('modal-mensaje');
+    const modalTexto = document.getElementById('modal-texto');
+    modal.style.display = 'flex';
+    modalTexto.textContent = mensaje;
+    modalTexto.style.color = color;
+    
+    animacion.goToAndPlay(0, true);
+
+    setTimeout(() => {
+        document.getElementById('modal-mensaje').style.display = 'none';
+        window.location.href = '../productos/productos.html';
+    }, 2500);
+}
+
 //Eventos
 
 document.addEventListener('DOMContentLoaded', () => {
     leerItems();
     mostrarItems();
+
+    //Modal
+    animacion = lottie.loadAnimation({
+    container: document.getElementById('modal-animacion'),
+    renderer: 'svg',
+    loop: false,
+    autoplay: false,
+    path: '../animaciones/pedido_realizado.json'
+    });
 })
+
+//Sumar días
+function sumarDias(fecha, dias){
+    let nuevaFecha = new Date(fecha);
+
+    nuevaFecha.setDate(nuevaFecha.getDate() + dias);
+
+    return nuevaFecha.toISOString().split('T')[0];
+}
 
 //A ventana de pago.
 botonPago.addEventListener('click', () => {
-    alert(`Vas a pagar un valor de ${totalFinal} $`)
+    //Validacion metodo de pago
+    const metodosPago = document.querySelectorAll(".form-check-input");
+    let seleccion = false;
+
+    metodosPago.forEach((metodo) => {
+        if(metodo.checked){
+            seleccion = true;
+        }
+    });
+
+    /*if (!seleccion){
+        alert("Debes elegir un método de pago")
+    } else {*/
+        const jwt = JSON.parse(localStorage.getItem("ingresoUsuario"));
+        const datosUsuario = JSON.parse(localStorage.getItem("userData"));
+        let datosProductos = [];
+
+        for (let i in productosCarrito){
+            datosProductos.push({
+                "cantidad": productosCarrito[i].cantidad,
+                "productos": {
+                    "id": productosCarrito[i].id,
+                }
+            })
+        }
+
+        if (jwt != null){
+            fetch(`${apiUrl}/pedidos`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "direccionEntrega": datosUsuario.direccion,
+                    "fechaPedido": diaActual.toISOString().split('T')[0],
+                    "fechaSalida": sumarDias(diaActual, 3),
+                    "valorTotal": totalFinal,
+                    "usuario": {
+                        "id_Usuario": datosUsuario.id
+                    },
+                    "productosPedidos": datosProductos
+                })
+            })
+            .then(async response =>{
+                if (!response.ok) {
+                    const errorMessage = await response.text();
+                    throw new Error(errorMessage || "Error al hacer el pedido");
+                } else if(response.ok){
+                    mostrarModal(await response.text(), "black");
+                    localStorage.removeItem("carrito");
+                }
+            })
+            .catch(error => {
+                console.error("Error al agregar usuario:", error.message);
+                mostrarModal("Error: " + error.message, "red"); // Opcional: mostrar mensaje de error al usuario
+            });
+        } else {
+            alert("Debes iniciar sesión")
+        }
+    //}
 })

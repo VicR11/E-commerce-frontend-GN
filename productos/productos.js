@@ -1,32 +1,40 @@
 let listaProductos = [];
+const contenedor = document.getElementById('contenedor-cards');
 document.addEventListener("DOMContentLoaded", cargarProductos);
 
+document.querySelector('form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    buscarProducto();
+  });
+
 function crearCard(nombre, imagen, precio){
-const contenedor = document.getElementById('contenedor-cards');
-    contenedor.innerHTML += ` 
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = ` 
               
-                <div class="card">
-                    <div class="card-image">
+               
+                        <div class="card-image">
                         <img src="${imagen}" alt="Imagen de la card">
                         </div>
                         <div class="card-content">                
                             <h2>$${formatoMoneda(precio)} Kg</h2>
                             <p>${nombre}</p>
                             <button onclick="verDetalle('${nombre}')">Ver más</button>
-                        </div>   
-                    </div>`
+                        </div>`
+                          document.getElementById('contenedor-cards').appendChild(card);
+                   
 
 }
 
 function cargarProductos(){
-    fetch("http://localhost:8080/productos")
-    .then(res => res.json())
-    .then(productos =>{
-        productos.forEach(producto => {
-            crearCard(producto.nombre, producto.imagenesProducto[0]?.urlImagen, producto.precio)
-        });
-        
-    }).catch(error => console.error('Error:', error));
+ 
+        fetch("http://localhost:8080/productos")
+        .then(res => res.json())
+        .then(productos =>{
+            productos.forEach(producto => {
+                crearCard(producto.nombre, producto.imagenesProducto[0]?.urlImagen, producto.precio)
+            });    
+        }).catch(error => console.error('Error:', error));
 }
 
 function verDetalle(nombre){  
@@ -40,6 +48,40 @@ function formatoMoneda(numero){
     })
     return valorMoneda
 }
+
+function buscarProducto(){  
+    contenedor.innerHTML ="";
+    let nombreProducto = document.querySelector('[name="buscar"]').value;
+    if (!nombreProducto) {
+        cargarProductos();
+        return;
+    }
+        fetch(`http://localhost:8080/productos/nombres/${nombreProducto}`)
+        .then(res =>  res.json())
+        .then(productos =>{
+            console.log("productos.length : "+productos.length )
+            if(productos.length > 0){
+                productos.forEach(producto => {
+                    console.log("creando card ")
+                    crearCard(producto.nombre, producto.imagenesProducto[0]?.urlImagen, producto.precio)
+                });
+            }else{
+                mostrarMensajeNoEncontrado(nombreProducto)
+            }
+            
+        }).catch(error => {
+            console.error('Error:', error)
+            mostrarMensajeNoEncontrado(nombreProducto)
+
+        });
+    
+}
+
+function mostrarMensajeNoEncontrado(nombre) {
+    contenedor.innerHTML = `<p>No se encontró el producto "${nombre}".</p>`;
+  }
+
+
 
 
 

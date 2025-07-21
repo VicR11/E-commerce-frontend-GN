@@ -2,6 +2,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Cormorant:ital,wght@0,300..700;1,300..700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Cormorant:ital,wght@0,300..700;1,300..700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
+/* Modal Animacion */
+#modal-mensaje{
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-cuerpo{
+    background: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+#modal-animacion {
+    width: 200px;
+    height: 150px;
+    margin: 0 auto;
+}
+
+
+#modal-texto{
+    margin: 0;
+    font-weight: 800;
+}
+
 /* Variables */
 :root{
     --black: #181f0d;
@@ -126,8 +157,8 @@ a:visited { /* Elimina el color del enlace al ser clickeado */
 #banner h1 {
     margin: 0;
     padding: 0;
-    font-size: 64px;
-    font-family: 'Cormorant';
+    font-size: 32px;
+    font-family: 'DM Sans';
     text-align: center;
     color: white;
 }
@@ -171,6 +202,7 @@ a:visited { /* Elimina el color del enlace al ser clickeado */
 .product-list img{
     margin-left: 30px;
     height: 101px;
+    width: 101px;
     padding: 3px;
 }
 
@@ -223,12 +255,19 @@ a:visited { /* Elimina el color del enlace al ser clickeado */
     border: 1px solid var(--black);
     cursor: pointer;
     box-shadow: 1px 1px 3px var(--black);
+    padding: 0;
+    display: flex;
+    justify-content: center;
 }
 
 .delete-item:hover{
     color: white;
     background-color: var(--primary-color);
     transition: 0.3s ease;
+}
+
+.delete-item img:hover path{
+    fill: white;
 }
 
 /* Overview */
@@ -241,7 +280,7 @@ a:visited { /* Elimina el color del enlace al ser clickeado */
     background-color: var(--buttons-color);
     border-radius: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     padding: 20px;
 }
 
@@ -409,6 +448,28 @@ a:visited { /* Elimina el color del enlace al ser clickeado */
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
+/* Payment-methods */
+
+.payment-checkbox-container {
+    background-color: var(--buttons-color);
+    margin-right: 5dvw;
+}
+
+.input-group-text {
+    flex-wrap: wrap;
+}
+
+.form-check-input{
+    margin-top: 0;
+    margin-left: 10px;
+}
+
+.payment-image {
+    height: 45px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 @media (max-width: 768px){
     /* Banner */
     #banner {
@@ -475,11 +536,11 @@ a:visited { /* Elimina el color del enlace al ser clickeado */
         margin-right: 20px;
     }
 
-    .product-cost::before {
+    /*.product-cost::before {
         content: "Precio / lb: ";
         display: block;
         margin-right: 20px;
-    }
+    }*/
 
     .product-total::before {
         content: "Total: ";
@@ -522,16 +583,53 @@ a:visited { /* Elimina el color del enlace al ser clickeado */
     #shipping-cost {
         padding-right: 150px;
     }
+
+    .payment-options {
+        margin-top: 20px;
+    }
+
+    /* Payment-methods */
+
+    .payment-checkbox-container {
+        margin-right: 0;
+    }
 }
 
 @media (max-width: 560px){
+    .payment-final{
+        border-top: 1px solid var(--black);
+    }
+    .payment-information {
+        grid-template-columns: 1fr 1fr;
+        width: auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #total-text {
+        margin-right: 25px;
+    }
+
+    #total-cost {
+        margin: auto;
+        margin-top: 10px;
+    }
+
     #sub-total {
-        padding-right: auto;
-        padding-left: 100px;
+        width: fit-content;
+        padding-right: 5dvw;
+        padding-left: 5dvw;
+        /* margin: auto; */
     }
 
     #shipping-cost {
-        padding-right: auto;
-        padding-left: 100px;
+        width: fit-content;
+        padding-right: 5dvw;
+        padding-left: 5dvw;
+        border: none;
+    }
+
+    #shipping-text {
+        border-bottom: none;
     }
 }

@@ -1,7 +1,8 @@
 
-/*import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-storage.js";*/
-//const url = "https://xpnrrkuyw4.us-east-1.awsapprunner.com";
+
+document.addEventListener('DOMContentLoaded', renderizarTablaProductos);
+document.getElementById("botonModalActualizar").addEventListener('click', actualizarProducto)
+
 const url = "http://localhost:8080";
 const CLOUD_NAME = 'dusm0i6o7';  // reemplaza por tu cloud name
 const UPLOAD_PRESET = 'productos_agroshop_unsigned';
@@ -26,8 +27,6 @@ document.querySelector(".formulario").addEventListener("submit", async function 
     return;
   }
 
-  
-  
 
   try {
       for (const imagen of imagenes) {
@@ -43,7 +42,6 @@ document.querySelector(".formulario").addEventListener("submit", async function 
 
           const data = await res.json();
           console.log('✅ Imagen subida:', data);
-          console.log("data.secure_url -->"+data.secure_url);
           urlsImagenes.push({ urlImagen: data.secure_url  });
       }
     
@@ -58,27 +56,18 @@ document.querySelector(".formulario").addEventListener("submit", async function 
     guardarProducto(producto)
     listaProductos.push(producto);
     localStorage.setItem("KeyLista", JSON.stringify(listaProductos));
-
-    renderizarTablaProductos()
     alert("✅ Producto agregado correctamente");
 
     // Limpia el formulario
     document.querySelector(".formulario").reset();
 
-    // Opcional: recarga la tabl
+    renderizarTablaProductos()
+
   } catch (error) {
     console.error("❌ Error al subir la imagen:", error);
     alert("Ocurrió un error al subir la imagen.");
   }
 });
-
-
-
- 
-
-document.addEventListener('DOMContentLoaded', renderizarTablaProductos());
-
-
 
 // Función para mostrar los productos en la tabla
 function renderizarTablaProductos() {
@@ -96,7 +85,6 @@ function renderizarTablaProductos() {
  });
  })
 .catch(error => console.error('Error:', error));
-
 
 }
 
@@ -137,11 +125,10 @@ function crearTabla(id, nombre, precio, imagenes){
 
     tbody.appendChild(fila);
 }
-function mostrarModalActualizar(id){
 
+function mostrarModalActualizar(id){
   const modal = document.getElementById("modal-actualizar")
   modal.style.display = 'flex'
-
 
   fetch(`${url}/productos/${id}`)
   .then(response => response.json())
@@ -158,7 +145,6 @@ function mostrarModalActualizar(id){
 }
 
 function guardarProducto(producto){
-
  fetch(`${url}/productos`, {
         method: "POST",
         headers: {
@@ -167,9 +153,6 @@ function guardarProducto(producto){
         body: JSON.stringify(producto)
       })
         .then(response => response.text()) // <- importante: leer como texto
-        .then(message => {
-          alert(message); // mostrará: "Pedido borrado con exito"
-        })
         .catch(error => {
           console.error("Error al eliminar el pedido:", error);
         });
@@ -181,9 +164,6 @@ function limpiarTablar(){
   tbody.innerHTML = "";
 }
 
-
-
-document.getElementById("botonModalActualizar").addEventListener('click', actualizarProducto)
 
 async function actualizarProducto(){
 
@@ -249,7 +229,6 @@ async function actualizarProducto(){
 
 
 /*  MODAL     */
-
 
 document.addEventListener("DOMContentLoaded", function() {
     animacion = lottie.loadAnimation({
