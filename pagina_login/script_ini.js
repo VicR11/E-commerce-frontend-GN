@@ -1,3 +1,6 @@
+
+const url = "http://localhost:8080";
+
 const listaUsuarios = JSON.parse(localStorage.getItem("KeyUsuarios")) || [];
 let animacion;
 
@@ -13,48 +16,80 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("login").addEventListener("submit", ingresoUsuario);
 });
 
-function ingresoUsuario(event){
+async function ingresoUsuario(event){
     event.preventDefault();
     limpiarErrores();
     const usuario= document.getElementById("correoUsuario").value;
     const contraseña = document.getElementById("passwordUsuario").value;
-    const valor=validarUsuario(usuario, contraseña);
-    console.log(valor);
-    mostrarErrores(valor);
+    if(usuario == "agroshop@gmail.com" && contraseña == 123){
+                window.location.href = "../pag_admin/admin.html";
+
+    }
+
+
+
+
+    await validarUsuario(usuario, contraseña);
+    // console.log(valor);
+    // mostrarErrores(valor);
 }
 
-function validarUsuario(funUsiario, funContraseña){
-    let valida=0;
-    listaUsuarios.forEach(usuario => {
-        if(usuario.email===funUsiario){
-            valida=1;
-            if(usuario.contraseña===funContraseña){
-                valida=2
-                return valida
+async function validarUsuario(funUsiario, funContraseña) {
+    let usuario = {
+        correo: funUsiario,
+        contraseña: funContraseña
+    };
+    let numeroError = "Usuario no existente";
+
+    fetch(`http://localhost:8080/auth/login`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(usuario)
+      })
+        .then(async response => {
+            const mensaje = await response.text();
+            if(response.ok){
+                localStorage.setItem("jwt", JSON.stringify(mensaje));
+                localStorage.setItem("ingresoUsuario", JSON.stringify(usuario.correo));
+                mostrarErrores("Inicio exitoso");
+            }else{
+                mostrarErrores(mensaje);
             }
-        }
-    });
-    return valida
+        })
+        .catch(error => {
+            console.error("Error al iniciar sesion:", error);
+            mostrarErrores(numeroError);
+        });
+
 }
+
 
 function mostrarErrores(numero){
     switch(numero){
-        case 0:
+        case "Usuario no existente":
             document.getElementById("errorUsuario").textContent="Usuario no existente"
-            document.getElementById("errorContraseña").textContent="Contraseña incorrecta"
             break
-        case 1:
+        case "Contraseña incorrecta":
             document.getElementById("errorContraseña").textContent="Contraseña incorrecta"
             break
         
-        case 2:
+        case "Inicio exitoso":
             limpiarFormulario();
             mostrarModal("Inicio de sesion exitoso", "black");
             break
+        default:
+             document.getElementById("errorUsuario").textContent="Usuario no existente"
+             document.getElementById("errorContraseña").textContent="Contraseña incorrecta"
+             
     }
 }
 
+/* mostrar el modal durante 3 seg y redirigir a inicio*/
 function mostrarModal(mensaje, color='black'){
+    console.log("mensaje:", mensaje);
+    
     const modal = document.getElementById('modal-mensaje');
     const modalTexto = document.getElementById('modal-texto');
     modal.style.display = 'flex';

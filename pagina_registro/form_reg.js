@@ -1,5 +1,6 @@
-const listaUsuarios = JSON.parse(localStorage.getItem("KeyUsuarios")) || [];
-let contador = listaUsuarios.length;
+const url = "http://localhost:8080";
+//const listaUsuarios = JSON.parse(localStorage.getItem("KeyUsuarios")) || [];
+//let contador = listaUsuarios.length;
 
 let animacion;
 
@@ -30,20 +31,54 @@ function tomar_datos(event){
     const aprobado=validarForm(nombre,email,celular,direccion,contraseña,validacion);
     if(aprobado){
        const usuario = {
-            id: contador++,
             nombre: nombre,
-            email: email,
-            celular: celular,
-            ciudad: localidad,
             direccion: direccion,
+            localidad: localidad,
+            telefono: celular,
+            correo: email,
             contraseña: contraseña
         };
-        listaUsuarios.push(usuario);
+
+        agregarUsuario(usuario);
+
+        //listaUsuarios.push(usuario);
     // console.log(JSON.stringify(listaProductos, null, 2));
-        localStorage.setItem("KeyUsuarios",JSON.stringify(listaUsuarios));
-        mostrarModal("Registro exitoso", "black");
+        //localStorage.setItem("KeyUsuarios",JSON.stringify(listaUsuarios));
         limpiarFormulario();
     }
+}
+
+
+
+
+function agregarUsuario(usuario){ 
+    fetch(`${url}/usuarios/register`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(usuario)
+    })
+    .then(response => {
+        if (!response.ok) {
+            return response.text().then(errorMessage => {
+                // Lanzamos error con el mensaje recibido desde el backend
+                throw new Error(errorMessage || "Error al registrar el usuario");
+            });
+        }
+        return response.text();
+    })
+    .then(message => {
+        mostrarModal(message, "black");
+        
+    setTimeout(() => {
+        window.location.href = "/pagina_login/form_inicio.html";
+    }, 3000);
+    })
+    .catch(error => {
+        console.error("Error al agregar usuario:", error.message);
+        mostrarModal("Error: " + error.message, "red"); // Opcional: mostrar mensaje de error al usuario
+    });
 }
 
 
@@ -129,6 +164,7 @@ function validarComparacion(contraseña,validacion){
     return true;
 }
 
+
 function limpiarFormulario(){
     document.getElementById("nombre").value="";
     document.getElementById("email").value="";
@@ -150,7 +186,6 @@ function mostrarModal(mensaje, color='black'){
 
     setTimeout(() => {
         document.getElementById('modal-mensaje').style.display = 'none';
-        window.location.href = "/pagina_login/form_inicio.html";
     }, 3000);
 
 }
