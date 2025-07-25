@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300..700;1,300..700&display=swap');
+:root {
+    --verde-principal: #546f01;
+    --hover-verde: #a4bc00;
+    --beige-suave: #d8cabb;
+    --madera: #a88f6b;
+    --blanco: #ffffff;
+    --negro: #000000;
+}
+
+* {
+    font-family: 'DM Sans', sans-serif;
+}
+
+
+  
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+/* --- Ícono del ojo --- */
+.toggle-password {
+    position: absolute;
+    top: 65%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    /*color: #6c757d;  Gris Bootstrap */
+    color: var(--madera);
+    z-index: 2;
+  }
+   
+  /* --- Campo de error --- */
+  /*.error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+  }*/
+
+#modal-mensaje{
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-cuerpo{
+    background: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+#modal-animacion {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+
+#modal-texto{
+    margin: 0;
+}
+
+.error{
+    color: red;
+}
+
+.contenido-perfil{
+    width: 90%;             /* ancho flexible */
+    max-width: 30rem; 
+    background-color: #a88f6b;
+    border-radius: 30px;
+    margin: 5rem auto;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 2rem 2rem 2rem;
+    margin: 0%;
+    gap: 0.5rem;
+}
+
+.login-form label{
+    font-family: "DM Sans", sans-serif;
+    margin: 0%;
+ }
+
+.login-form a{
+    font-family: "DM Sans", sans-serif;
+    color: #181f0d;
+    text-align: center;
+ }
+
+.form-control{
+    border: none;
+    background-color: #d8cabb;
+    border: 20px;
+}
+.registro{
+    text-align: center;
+    padding: 1rem;
+}
+.btn{
+    background-color: #181f0d;
+    border: none;
+}
+
+.btn:hover{
+    background-color: var(--verde-principal) ;
+}
+
+footer {
+    margin-top: auto;
+  }
+
+  @media (max-width: 1024px) {
+    .login {
+        flex-direction: column;
+    }
+
+    .banner-contenedor,
+    .login-contenedor {
+        width: 100%;
+    }
+
+    .banner-contenedor {
+        height: 200px;
+    }
+
+    .banner-contenedor img {
+        object-fit: cover;
+        height: 100%;
+        width: 100%;
+    }
+
+    .contenido {
+        padding: 1.5rem 1rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .header-login h2 {
+        font-size: 1.5rem;
+    }
+
+    .login-contenedor h1 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .contenido {
+        border-radius: 20px;
+        padding: 1rem;
+    }
+
+    .form-control,
+    .btn {
+        font-size: 0.95rem;
+    }
+
+    .registro a {
+        font-size: 0.9rem;
+    }
+}
