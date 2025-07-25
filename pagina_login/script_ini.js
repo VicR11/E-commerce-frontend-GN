@@ -1,5 +1,6 @@
 
 const url = "http://localhost:8080";
+ 
 
 const listaUsuarios = JSON.parse(localStorage.getItem("KeyUsuarios")) || [];
 let animacion;
@@ -66,8 +67,8 @@ async function validarUsuario(funUsiario, funContraseña) {
 }
 
 
-function mostrarErrores(numero){
-    switch(numero){
+function mostrarErrores(caso){
+    switch(caso){
         case "Usuario no existente":
             document.getElementById("errorUsuario").textContent="Usuario no existente"
             break

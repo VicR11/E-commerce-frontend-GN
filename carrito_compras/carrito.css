@@ -135,6 +135,24 @@ a:visited { /* Elimina el color del enlace al ser clickeado */
     z-index: 1000;
 }
 
+.dropdown-menu {
+    background-color: #546f01;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 120px;
+    min-width: unset; /* 🔥 Este es clave para permitir que baje */
+    width: 130px;    
+
+}
+
+.dropdown-item {
+    white-space: normal;
+   
+    word-break: break-word; 
+  }
+  
+
 .container-fluid {
     z-index: 1000;
 }

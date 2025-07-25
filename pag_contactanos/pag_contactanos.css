@@ -74,7 +74,7 @@ p {
 }
 
 
-.navbar-nav li a {
+.navbar-nav li a, .cerrar-sesion {
     border-radius: 15px;
     color: var(--blanco);
     font-size: 1rem;
@@ -88,6 +88,28 @@ p {
     color: var(--blanco);
     transform: scale(1.05);
 }
+
+.item-nombre-usuario{
+    display: none;
+}
+
+.dropdown-menu {
+    background-color: #546f01;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 120px;
+    min-width: unset; /* 🔥 Este es clave para permitir que baje */
+    width: 130px;    
+
+}
+
+.dropdown-item {
+    white-space: normal;
+   
+    word-break: break-word; 
+  }
+  
 
 
 
