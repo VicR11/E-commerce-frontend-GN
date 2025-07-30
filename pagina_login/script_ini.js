@@ -114,3 +114,14 @@ function limpiarErrores(){
     document.getElementById("errorUsuario").textContent="";
     document.getElementById("errorContraseña").textContent="";
 }
+
+
+document.querySelectorAll('.toggle-password').forEach(icon => {
+    icon.addEventListener('click', function () {
+      const input = document.querySelector(this.getAttribute('toggle'));
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      this.classList.toggle('fa-eye');
+      this.classList.toggle('fa-eye-slash');
+    });
+  });

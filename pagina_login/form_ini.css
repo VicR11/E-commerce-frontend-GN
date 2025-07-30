@@ -61,7 +61,17 @@ html, body {
     background-color: #d8cabb;
 }
  
-
+/* --- Ícono del ojo --- */
+.toggle-password {
+    position: absolute;
+    top: 70%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    /*color: #6c757d;  Gris Bootstrap */
+    color: var(--madera);
+    z-index: 2;
+  }
 /* CONTENIDO LOGIN */
 .contenido {
     max-width: 400px;
