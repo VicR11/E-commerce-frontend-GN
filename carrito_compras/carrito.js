@@ -154,8 +154,15 @@ function sumarDias(fecha, dias){
 
 //A ventana de pago.
 botonPago.addEventListener('click', () => {
+    const jwt = JSON.parse(localStorage.getItem("jwt"));
+     if(jwt){
+        window.location.href="../pagina_pedido/pagina_pedido.html"
+     }else{
+        window.location.href = "../pagina_login/form_inicio.html"
+     }
+
     //Validacion metodo de pago
-    const metodosPago = document.querySelectorAll(".form-check-input");
+    /*const metodosPago = document.querySelectorAll(".form-check-input");
     let seleccion = false;
 
     metodosPago.forEach((metodo) => {
@@ -166,7 +173,7 @@ botonPago.addEventListener('click', () => {
 
     /*if (!seleccion){
         alert("Debes elegir un método de pago")
-    } else {*/
+    } else {
         const jwt = JSON.parse(localStorage.getItem("ingresoUsuario"));
         const datosUsuario = JSON.parse(localStorage.getItem("userData"));
         let datosProductos = [];
@@ -213,5 +220,5 @@ botonPago.addEventListener('click', () => {
         } else {
             alert("Debes iniciar sesión")
         }
-    //}
+    //}*/
 })

@@ -4,8 +4,10 @@ document.addEventListener("DOMContentLoaded",cargarInformacion)
 form.addEventListener("submit", actualizarInformacion)
 
 const correoUsuario = JSON.parse(localStorage.getItem("ingresoUsuario"));
-const urlBusqueda = "http://localhost:8080/usuarios/correo/";
-const urlActualizar = "http://localhost:8080/usuarios/editar/";
+
+const urlPerfil= "http://localhost:8080/usuarios/";
+//const urlBusqueda = "http://localhost:8080/usuarios/correo/";
+//const urlActualizar = "http://localhost:8080/usuarios/editar/";
 
 const nombre = document.getElementById("nombre");
 const correo= document.getElementById("email");
@@ -19,7 +21,7 @@ let contraseña;
 
 function cargarInformacion(event){
     event.preventDefault();
-    fetch(`${urlBusqueda}${correoUsuario}`)
+    fetch(`${urlPerfil}correo/${correoUsuario}`)
     .then(res => res.json())
     .then(usuario =>{
             nombre.value = usuario.nombre;
@@ -40,8 +42,8 @@ function cargarInformacion(event){
     }).catch(error => console.error('Error:', error));
 }
 
-function actualizarInformacion(){
-
+function actualizarInformacion(event){
+  event.preventDefault();
     const nuevoUusuario ={
         nombre : nombre.value,
         direccion : direccion.value,
@@ -51,7 +53,7 @@ function actualizarInformacion(){
         contraseña : contraseña,
     }
 
-    fetch(`${urlActualizar}${id}`, {
+    fetch(`${urlPerfil}editar/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json"
