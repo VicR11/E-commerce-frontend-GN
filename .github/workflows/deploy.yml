@@ -35,7 +35,7 @@ jobs:
             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: AKIAZQKGDIIHRANZJLUD
+          AWS_SECRET_ACCESS_KEY: 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
           AWS_REGION: us-east-1
 
