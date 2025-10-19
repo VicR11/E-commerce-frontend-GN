@@ -21,7 +21,7 @@ function mostrarItems(){
         contenedor.removeChild(contenedor.lastChild)
     }
     for (let i in productosCarrito){
-        crearItem(productosCarrito[i].nombre, productosCarrito[i].precio, productosCarrito[i].imagenesProducto[0].urlImagen, productosCarrito[i].cantidad)
+        crearItem(productosCarrito[i].nombre, productosCarrito[i].precio, productosCarrito[i].imagenesProducto[0].urlImagen, productosCarrito[i].cantidadCompra)
     }
 }
 
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderer: 'svg',
     loop: false,
     autoplay: false,
-    path: '../animaciones/pedido_realizado.json'
+    path: '../animaciones/producto_agregado.json'
     });
 })
 

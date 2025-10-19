@@ -18,6 +18,7 @@ let idUsuario = null
 let subtotalPagar = null
 let totalPagar = null
 const diaActual = new Date();
+console.log("diaActual :"+diaActual)
 const valorEnvio = 5000;
 let productosPedidoDTO = [];
 let tablaProductos = document.querySelector(".informacion-productos > table")
@@ -26,7 +27,6 @@ let tablaProductos = document.querySelector(".informacion-productos > table")
 function mostrarInformacion(){
     cargarInfoUsuario()
     cargarProductos()
-    borrar()
 }
 
 Form.addEventListener("submit", (event)=>{
@@ -80,33 +80,43 @@ function cargarInfoUsuario(){
 
 }
 
-function borrar(){
-    console.log("totalPagar : "+totalPagar)
-    console.log("productosPedidoDTO: "+JSON.stringify(productosPedidoDTO));
-}
 
 function cargarProductos(){
     productosCarrito.forEach(producto =>{
-        subtotalPagar += producto.precio*producto.cantidad
+        subtotalPagar += producto.precio*producto.cantidadCompra
         totalPagar = subtotalPagar + valorEnvio;
         productosPedidoDTO.push({
             idProducto: producto.id,
-            cantidad: producto.cantidad
+            cantidad: producto.cantidadCompra
         })
-        crearFila(producto.nombre, producto.ImagenesProducto[0].urlImagen, producto.precio, producto.cantidad )
+        crearFila(producto.nombre, producto.ImagenesProducto[0].urlImagen, producto.precio, producto.cantidadCompra )
         calcularCostos(subtotalPagar);
     })
 }
 
-function crearFila(nombre, imagen, precio, cantidad){
+function crearFila(nombre, imagen, precio, cantidadCompra){
     const row = document.createElement('tr');
     row.innerHTML = ` <td><img src="${imagen}" alt="${nombre}" </td>
                       <td>${nombre}</td>
-                      <td>${cantidad}</td>
-                      <td>${formatoMoneda(precio*cantidad)}</td>`
+                      <td>${cantidadCompra}</td>
+                      <td>${formatoMoneda(precio*cantidadCompra)}</td>`
       tablaProductos.appendChild(row);
 }
 
+function actualizarCantidadesReservadas(productosPedidoDTO){
+    fetch(`${urlPedidos}editarCantidadReservada`, {
+        method: "PUT",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify(productosPedidoDTO)
+    })
+    .then(response => response.text()) // <- importante: leer como texto
+    .catch(error => {
+        console.error("Error al agregar actualizar cantidades reservadas:", error);
+    });
+
+}
 function calcularCostos(subtotalPagar){
     subtotal.textContent = formatoMoneda(subtotalPagar);
     total.textContent = formatoMoneda(subtotalPagar+valorEnvio);
@@ -153,6 +163,7 @@ function mostrarModal(mensaje, color='black'){
 
     setTimeout(() => {
         document.getElementById('modal-mensaje').style.display = 'none';
+        //window.location.href = "../index.html"
     }, 5000);
 
 }

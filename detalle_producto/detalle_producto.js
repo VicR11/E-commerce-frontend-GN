@@ -1,6 +1,6 @@
 
 let productSelected = {};
-let cantidad = 1;
+let cantidadCompra = 1;
 let animacion;
 const url = "http://localhost:8080";
 
@@ -18,6 +18,7 @@ const addAmountButton = document.getElementById("signo-mayor");
 const subAmountButton = document.getElementById("signo-menor");
 const restablecerButton = document.getElementById("restablecer-cantidad");
 const shoppingCartButton = document.getElementById("shopping-cart");
+let cantidadTotalProducto = null
 
 //Funciones
 
@@ -28,9 +29,11 @@ function leerProducto(){
     .then(res => res.json())
     .then(data => {
       console.log("Producto:", data);
-      let product = data;
-      productSelected = product;
-      productSelected.cantidad = cantidad;
+      //let product = data;
+      productSelected = data;
+      //productSelected.cantidad = cantidad;
+      //cantidadTotalProducto = product.cantidad
+      console.log("cantidadCompra :"+cantidadCompra)
     renderizar();
     });
 }
@@ -40,11 +43,11 @@ function renderizar(){
     let precioProducto = productSelected.precio;
     let imagenProducto = productSelected.imagenesProducto;
     let descripcionProducto = productSelected.descripcion;
-    let cantidadProducto = productSelected.cantidad = cantidad;
-    mostrarProducto(nombreProducto, precioProducto, imagenProducto, descripcionProducto, cantidadProducto);
+
+    mostrarProducto(nombreProducto, precioProducto, imagenProducto, descripcionProducto, cantidadCompra);
 }
 
-function mostrarProducto(nombre, precio, imagen, descripcion, cantidad){
+function mostrarProducto(nombre, precio, imagen, descripcion, cantidadCompra){
     ///let precioFloat = parseFloat(precio.replace("$", "").replace("Kg", "").trim());
     productNameElement.textContent = nombre;
     productCostElement.textContent = `$ ${precio} / Kg`;
@@ -55,29 +58,34 @@ function mostrarProducto(nombre, precio, imagen, descripcion, cantidad){
     productImgElement3.src = imagen[2]?.urlImagen;
     productImgElement3.alt = `Imagen de ${nombre}`;
     descripcionP.textContent = descripcion;
-    productAmountElement.textContent = `${cantidad}`;
-    productTotal.textContent = `$ ${cantidad * precio}`;
+    productAmountElement.textContent = `${cantidadCompra}`;
+    productTotal.textContent = `$ ${cantidadCompra * precio}`;
 }
 
 function aumentarCantidad(){
-    if (cantidad >= 1){
-        cantidad += 1;
+    if (cantidadCompra >= 1){
+        console.log("cantidadCompra : "+cantidadCompra)
+        if(cantidadCompra < productSelected.cantidad)
+            cantidadCompra += 1;
+        else
+            alert("Has alcanzado la cantidad máxima disponible para este producto")
     }
-    console.log(cantidad)
-    productSelected.cantidad = cantidad;
+    console.log(cantidadCompra)
+
+    //cantidadCompra = cantidadCompra;
 }
 
 function disminuirCantidad(){
-    if (cantidad > 1){
-        cantidad -= 1;
+    if (cantidadCompra > 1){
+        cantidadCompra -= 1;
     }
-    console.log(cantidad)
-    productSelected.cantidad = cantidad;
+    console.log(cantidadCompra)
+    //cantidadCompra = cantidadCompra;
 }
 
 function restablecerCantidad(){
-    cantidad = 1;
-    productSelected.cantidad = 1;
+    cantidadCompra = 1;
+   
 }
 
 function agregarCarrito(){
@@ -86,15 +94,25 @@ function agregarCarrito(){
         let listaCarrito = JSON.parse(localStorage.getItem("carrito") || []);
         const productoExistente  = listaCarrito.find(producto =>producto.nombre ==productSelected.nombre) // find devuelve una referencia al objeto por eso se modifica el objeto del array directamente
             if(productoExistente ){
-                productoExistente.cantidad +=productSelected.cantidad; 
+                if(productoExistente.cantidadCompra < productoExistente.cantidad){
+                    productoExistente.cantidadCompra +=cantidadCompra; 
+                    mostrarModal("", "black");
+                }    
+                else
+                    alert("Has alcanzado la cantidad máxima disponible para este producto")
             }else{
-                listaCarrito.push(productSelected);
+                listaCarrito.push({
+                    ...productSelected,
+                    cantidadCompra : cantidadCompra
+                });
+                mostrarModal("", "black");
             } 
         localStorage.setItem("carrito", JSON.stringify(listaCarrito));
     } else {
         let carritoVacio = [];
         carritoVacio.push(productSelected);
         localStorage.setItem("carrito", JSON.stringify(carritoVacio));
+        mostrarModal("", "black");
     }
 }
 
@@ -110,17 +128,17 @@ function mostrarModal(mensaje, color='black'){
 
     setTimeout(() => {
         document.getElementById('modal-mensaje').style.display = 'none';
-        window.location.href = '../productos/productos.html';
+        window.location.href = '../carrito_compras/carrito.html';
         
     }, 2500);
 }
 
-const aElement = document.getElementById("resumen-compra").querySelector('a');
+/*const aElement = document.getElementById("resumen-compra").querySelector('a');
 aElement.addEventListener('click', (e) => {
     e.preventDefault();
 
     mostrarModal("", "black");
-})
+})*/
 
 //Eventos
 
