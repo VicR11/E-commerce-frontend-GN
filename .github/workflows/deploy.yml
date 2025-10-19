@@ -3,7 +3,7 @@ name: Deploy to S3
 on:
   push:
     branches:
-      - main   # 👈 cada vez que hagas push a main se despliega automáticamente
+      - main
 
 jobs:
   deploy:
@@ -13,29 +13,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # 🔐 Configura las credenciales de AWS (sin instalar nada)
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # 🚀 Sube tu build al bucket S3
       - name: Sync files to S3
         uses: jakejarvis/s3-sync-action@master
         with:
           args: --delete
         env:
           AWS_S3_BUCKET: front-agroshop-prod
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
           SOURCE_DIR: .   # 👈 cambia a "dist" si usas React/Vite/Angular
 
-      - name: Install AWS CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
-
+      # 🧹 Invalida el caché de CloudFront
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
+
 
