@@ -1,9 +1,9 @@
-name: Deploy static site to S3 and CloudFront
+name: Deploy to S3
 
 on:
   push:
     branches:
-      - main   # se ejecuta cuando haces push a la rama main
+      - main   # 👈 cada vez que hagas push a main se despliega automáticamente
 
 jobs:
   deploy:
@@ -18,17 +18,24 @@ jobs:
         with:
           args: --delete
         env:
-          AWS_S3_BUCKET: front-agroshop-prod
+          AWS_S3_BUCKET: nombre-de-tu-bucket
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
-          SOURCE_DIR: .   # 👈 la raíz del repo, donde está tu index.html
+          SOURCE_DIR: .   # 👈 cambia a "dist" si usas React/Vite/Angular
+
+      - name: Install AWS CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y awscli
 
       - name: Invalidate CloudFront cache
-        uses: aws-actions/cli@v2
-        with:
-          args: cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-1
+
