@@ -1,0 +1,22 @@
+[33m8a0ea1e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m fix: probar credenciales en archivo
+[33m314dcc5[m[33m ([m[1;31morigin/main[m[33m)[m retry deploy with secrets
+[33m7351659[m retry deploy with secrets
+[33m26d0a94[m retry deploy with secrets
+[33me408d71[m fix: usar awscli para invalidar CloudFront
+[33m8dfa51e[m fix: invalidate CloudFront con AWS CLI
+[33m649586b[m cambio de env por with
+[33m249ef37[m probar distribucion
+[33mfb34719[m retry deploy with secrets
+[33m49d7195[m Configuración CI/CD con S3 y CloudFront
+[33m115f5fc[m Create deploy.yml
+[33m2b2dce6[m Se agrega pagina de pedido
+[33mc4da980[m Se agrega pagina cambiar contraseña
+[33m1a0b336[m Se agrega pagina_perfil para ver y editar informacion del usuario
+[33ma8dc9b3[m Se agrega pagina_perfil para ver y editar informacion del usuario
+[33m52a0a54[m Se agregan mensajes de error para el login
+[33m2cf8230[m Se mejoran funcionalidades del carrito
+[33m4fe0b4c[m Se actuliza logo
+[33m316b035[m Se modifica detalleProducto con carrusel
+[33me0ebe3e[m Refactorizacion pagina contactanos
+[33m9749678[m Se refactoriza CSS pag_nos
+[33m8e68f11[m Base frontend Agroshop
